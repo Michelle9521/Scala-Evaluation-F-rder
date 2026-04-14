@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Berufsschule Scala – Evaluation</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap');
+
+  :root {
+    --blue: #0a4fa3;
+    --blue-light: #e8f0fb;
+    --blue-mid: #4a7fd4;
+    --blue-dark: #073980;
+    --green: #2e9e5b;
+    --green-light: #e6f6ed;
+    --text: #1a1a2e;
+    --text-muted: #6b7280;
+    --border: #d1dce8;
+    --white: #ffffff;
+    --bg: #f4f7fc;
+    --emoji-size: 2rem;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  body {
+    font-family: 'Nunito Sans', 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    font-size: 16px;
+    line-height: 1.7;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  header {
+    background: var(--white);
+    border-bottom: 3px solid var(--blue);
+    padding: 1.5rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  header img.logo {
+    height: 56px;
+    width: auto;
+  }
+
+  header .header-text {
+    text-align: right;
+  }
+
+  header .header-label {
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  header h1 {
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--blue);
+  }
+
+  .progress-bar-wrap { height: 5px; background: var(--border); }
+  .progress-bar { height: 100%; background: linear-gradient(90deg, var(--blue), var(--blue-mid)); width: 0%; transition: width 0.4s ease; }
+
+  main { max-width: 640px; margin: 0 auto; padding: 2rem 1.5rem 5rem; }
+
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* INTRO */
+  .intro-card {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 2.5rem 2rem;
+    text-align: center;
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 12px rgba(10,79,163,0.07);
+  }
+
+  .intro-card .intro-emoji {
+    font-size: 3.5rem;
+    display: block;
+    margin-bottom: 1.25rem;
+  }
+
+  .intro-card h2 {
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--blue);
+    margin-bottom: 0.75rem;
+  }
+
+  .intro-card p {
+    font-size: 1.05rem;
+    color: var(--text-muted);
+    max-width: 440px;
+    margin: 0 auto 1.75rem;
+    line-height: 1.8;
+  }
+
+  .intro-stats {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .intro-stat {
+    text-align: center;
+  }
+
+  .intro-stat .num {
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--blue);
+    display: block;
+  }
+
+  .intro-stat .label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+
+  .divider-v { width: 1px; background: var(--border); height: 40px; align-self: center; }
+
+  /* SECTION HEADERS */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 1.5rem;
+  }
+
+  .section-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: var(--blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+
+  .section-title {
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--blue);
+  }
+
+  .section-subtitle {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-top: 1px;
+  }
+
+  /* QUESTIONS */
+  .question {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 1px 4px rgba(10,79,163,0.04);
+  }
+
+  .q-text {
+    display: block;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 1rem;
+    line-height: 1.5;
+  }
+
+  .q-hint {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 0.75rem;
+    margin-top: -0.5rem;
+  }
+
+  /* CHECKBOX TYPE (Unterrichtsart) */
+  .checkbox-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .checkbox-item input[type="checkbox"] { display: none; }
+
+  .checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text);
+    transition: all 0.15s;
+    background: var(--white);
+  }
+
+  .checkbox-label:hover {
+    border-color: var(--blue);
+    background: var(--blue-light);
+  }
+
+  .checkbox-item input[type="checkbox"]:checked + .checkbox-label {
+    border-color: var(--blue);
+    background: var(--blue-light);
+    color: var(--blue-dark);
+  }
+
+  .check-box {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--border);
+    border-radius: 4px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+    font-size: 0.75rem;
+  }
+
+  .checkbox-item input[type="checkbox"]:checked + .checkbox-label .check-box {
+    background: var(--blue);
+    border-color: var(--blue);
+    color: white;
+  }
+
+  /* EMOJI RATING (Lernziele table) */
+  .subject-row {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.1rem 1.5rem;
+    margin-bottom: 0.75rem;
+    box-shadow: 0 1px 4px rgba(10,79,163,0.04);
+  }
+
+  .subject-name {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.75rem;
+  }
+
+  .emoji-scale {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .emoji-scale input[type="radio"] { display: none; }
+
+  .emoji-scale label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: 8px 10px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.15s;
+    background: var(--white);
+    min-width: 62px;
+    flex: 1;
+  }
+
+  .emoji-scale label:hover {
+    border-color: var(--blue-mid);
+    background: var(--blue-light);
+    transform: translateY(-1px);
+  }
+
+  .emoji-scale input[type="radio"]:checked + label {
+    border-color: var(--blue);
+    background: var(--blue-light);
+    box-shadow: 0 0 0 2px var(--blue);
+  }
+
+  .emoji-scale .e-icon { font-size: 1.5rem; }
+  .emoji-scale .e-text {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-align: center;
+    line-height: 1.2;
+  }
+
+  .emoji-scale input[type="radio"]:checked + label .e-text {
+    color: var(--blue-dark);
+  }
+
+  /* NA option */
+  .na-wrap {
+    margin-top: 8px;
+  }
+
+  .na-wrap input[type="radio"] { display: none; }
+
+  .na-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 3px 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+    background: var(--white);
+  }
+
+  .na-wrap input[type="radio"]:checked + .na-label {
+    background: var(--border);
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  /* YES/NO */
+  .yesno-wrap {
+    display: flex;
+    gap: 10px;
+  }
+
+  .yesno-wrap input[type="radio"] { display: none; }
+
+  .yesno-label {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text);
+    transition: all 0.15s;
+    background: var(--white);
+  }
+
+  .yesno-label:hover { border-color: var(--blue); background: var(--blue-light); }
+
+  .yesno-wrap input[type="radio"]:checked + .yesno-label {
+    border-color: var(--blue);
+    background: var(--blue-light);
+    color: var(--blue-dark);
+    box-shadow: 0 0 0 2px var(--blue);
+  }
+
+  /* TEXTAREA */
+  textarea {
+    width: 100%;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 1rem;
+    color: var(--text);
+    background: var(--white);
+    resize: vertical;
+    min-height: 80px;
+    outline: none;
+    transition: border-color 0.15s;
+    line-height: 1.6;
+  }
+
+  textarea:focus { border-color: var(--blue); }
+  textarea::placeholder { color: #c0c8d4; }
+
+  /* NAVIGATION */
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2rem;
+  }
+
+  .btn {
+    padding: 11px 26px;
+    border-radius: 8px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s;
+    border: 2px solid;
+  }
+
+  .btn-primary { background: var(--blue); color: white; border-color: var(--blue); }
+  .btn-primary:hover { background: var(--blue-dark); border-color: var(--blue-dark); }
+  .btn-ghost { background: transparent; color: var(--text-muted); border-color: var(--border); }
+  .btn-ghost:hover { border-color: var(--blue-mid); color: var(--blue); }
+
+  .step-counter {
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+  }
+
+  /* DANKE */
+  .danke-card {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 3rem 2rem;
+    text-align: center;
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 12px rgba(10,79,163,0.07);
+  }
+
+  .danke-card .danke-icon {
+    font-size: 4rem;
+    display: block;
+    margin-bottom: 1.25rem;
+  }
+
+  .danke-card h2 {
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--blue);
+    margin-bottom: 1rem;
+  }
+
+  .danke-card p {
+    color: var(--text-muted);
+    font-size: 1rem;
+    max-width: 440px;
+    margin: 0 auto;
+    line-height: 1.8;
+  }
+
+  /* Leichte Sprache visual helper */
+  .easy-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: var(--green-light);
+    color: var(--green);
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    border-radius: 20px;
+    padding: 2px 10px;
+    margin-left: 8px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 560px) {
+    header { padding: 1rem; }
+    header img.logo { height: 44px; }
+    header h1 { font-size: 0.95rem; }
+    main { padding: 1.25rem 1rem 4rem; }
+    .emoji-scale label { min-width: 50px; padding: 6px 6px; }
+    .emoji-scale .e-icon { font-size: 1.3rem; }
+    .checkbox-grid { grid-template-columns: 1fr; }
+    .question { padding: 1rem; }
+    .subject-row { padding: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <img class="logo" src="https://www.berufsschule-scala.ch/wp-content/uploads/sites/2/2025/06/berufsschule-scala-logo-cmyk-90x20mm.svg" alt="Berufsschule Scala">
+  <div class="header-text">
+    <div class="header-label">Qualitätsmanagement</div>
+    <h1>Ihr Feedback</h1>
+  </div>
+</header>
+
+<div class="progress-bar-wrap">
+  <div class="progress-bar" id="progress"></div>
+</div>
+
+<main>
+
+  <!-- INTRO -->
+  <div class="section active" id="sec-intro">
+    <div class="intro-card">
+      <span class="intro-emoji">✏️</span>
+      <h2>Ihr Lob begeistert uns.<br>Ihre Kritik bringt uns weiter.</h2>
+      <p style="max-width:360px; margin:0 auto 1.75rem;">Wir möchten gern wissen, wie es Ihnen bei uns gefallen hat. Bitte beantworten Sie diese Fragen.</p>
+      <div class="intro-stats">
+        <div class="intro-stat">
+          <span class="num">3</span>
+          <span class="label">Themen</span>
+        </div>
+        <div class="divider-v"></div>
+        <div class="intro-stat">
+          <span class="num">~3</span>
+          <span class="label">Minuten</span>
+        </div>
+        <div class="divider-v"></div>
+        <div class="intro-stat">
+          <span class="num">100%</span>
+          <span class="label">vertraulich</span>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="startSurvey()" style="padding: 13px 38px; font-size: 1.05rem;">Jetzt starten →</button>
+    </div>
+  </div>
+
+  <!-- 1: Unterrichtsart -->
+  <div class="section" id="sec-0">
+    <div class="section-header">
+      <div class="section-icon">📋</div>
+      <div>
+        <div class="section-title">Welchen Unterricht haben Sie besucht?</div>
+        <div class="section-subtitle">Sie können auch mehrere ankreuzen.</div>
+      </div>
+    </div>
+
+    <div class="question">
+      <label class="q-text">Ich habe diesen Unterricht abgeschlossen:</label>
+      <div class="checkbox-grid">
+        <div class="checkbox-item">
+          <input type="checkbox" id="art-eba-vor" name="unterrichtsart" value="EBA-Vorbereitungsunterricht">
+          <label class="checkbox-label" for="art-eba-vor">
+            <span class="check-box">✓</span>
+            EBA-Vorbereitungsunterricht
+          </label>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" id="art-eba-foer" name="unterrichtsart" value="EBA-Förderunterricht">
+          <label class="checkbox-label" for="art-eba-foer">
+            <span class="check-box">✓</span>
+            EBA-Förderunterricht
+          </label>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" id="art-efz-vor" name="unterrichtsart" value="EFZ-Vorbereitungsunterricht">
+          <label class="checkbox-label" for="art-efz-vor">
+            <span class="check-box">✓</span>
+            EFZ-Vorbereitungsunterricht
+          </label>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" id="art-efz-foer" name="unterrichtsart" value="EFZ-Förderunterricht">
+          <label class="checkbox-label" for="art-efz-foer">
+            <span class="check-box">✓</span>
+            EFZ-Förderunterricht
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- 1b: Halbtag & Lehrperson -->
+  <div class="section" id="sec-0b">
+    <div class="section-header">
+      <div class="section-icon">🗓️</div>
+      <div>
+        <div class="section-title">Wann kommen Sie in den Unterricht?</div>
+        <div class="section-subtitle">Sie können auch mehrere ankreuzen.</div>
+      </div>
+    </div>
+
+    <div class="question">
+      <label class="q-text">Ich besuche den Unterricht an diesen Halbtagen:</label>
+      <div class="checkbox-grid" style="grid-template-columns: 1fr 1fr;">
+        <div class="checkbox-item">
+          <input type="checkbox" id="ht-mo-v" name="halbtag" value="Montag Vormittag">
+          <label class="checkbox-label" for="ht-mo-v"><span class="check-box">✓</span>Montag Vormittag</label>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" id="ht-mo-n" name="halbtag" value="Montag Nachmittag">
+          <label class="checkbox-label" for="ht-mo-n"><span class="check-box">✓</span>Montag Nachmittag</label>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" id="ht-di-v" name="halbtag" value="Dienstag Vormittag">
+          <label class="checkbox-label" for="ht-di-v"><span class="check-box">✓</span>Dienstag Vormittag</label>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" id="ht-di-n" name="halbtag" value="Dienstag Nachmittag">
+          <label class="checkbox-label" for="ht-di-n"><span class="check-box">✓</span>Dienstag Nachmittag</label>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" id="ht-mi-v" name="halbtag" value="Mittwoch Vormittag">
+          <label class="checkbox-label" for="ht-mi-v"><span class="check-box">✓</span>Mittwoch Vormittag</label>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" id="ht-mi-n" name="halbtag" value="Mittwoch Nachmittag">
+          <label class="checkbox-label" for="ht-mi-n"><span class="check-box">✓</span>Mittwoch Nachmittag</label>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" id="ht-do-v" name="halbtag" value="Donnerstag Vormittag">
+          <label class="checkbox-label" for="ht-do-v"><span class="check-box">✓</span>Donnerstag Vormittag</label>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" id="ht-do-n" name="halbtag" value="Donnerstag Nachmittag">
+          <label class="checkbox-label" for="ht-do-n"><span class="check-box">✓</span>Donnerstag Nachmittag</label>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" id="ht-fr-v" name="halbtag" value="Freitag Vormittag">
+          <label class="checkbox-label" for="ht-fr-v"><span class="check-box">✓</span>Freitag Vormittag</label>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" id="ht-fr-n" name="halbtag" value="Freitag Nachmittag">
+          <label class="checkbox-label" for="ht-fr-n"><span class="check-box">✓</span>Freitag Nachmittag</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="question">
+      <label class="q-text">Bei welcher Lehrperson sind Sie im Unterricht?</label>
+      <select name="lehrperson" style="width:100%; border:1.5px solid var(--border); border-radius:8px; padding:10px 12px; font-family:'Nunito Sans',sans-serif; font-size:1rem; color:var(--text); background:var(--white); outline:none; transition:border-color 0.15s; appearance:none; background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7280' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E&quot;); background-repeat:no-repeat; background-position:right 12px center;" onfocus="this.style.borderColor='var(--blue)'" onblur="this.style.borderColor='var(--border)'">
+        <option value="">Bitte wählen …</option>
+        <option value="Andi">Andi</option>
+        <option value="Fabian">Fabian</option>
+        <option value="Karin">Karin</option>
+        <option value="Laurent">Laurent</option>
+        <option value="Manuela">Manuela</option>
+        <option value="Michelle">Michelle</option>
+        <option value="Robin">Robin</option>
+        <option value="Susi">Susi</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- 2: Lernziele -->
+  <div class="section" id="sec-1">
+    <div class="section-header">
+      <div class="section-icon">🎯</div>
+      <div>
+        <div class="section-title">Wie gut haben Sie Ihre Lernziele erreicht?</div>
+        <div class="section-subtitle">Wählen Sie für jedes Fach ein Smiley.</div>
+      </div>
+    </div>
+
+    <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:1rem; padding: 0.75rem 1rem; background: var(--white); border-radius: 10px; border: 1px solid var(--border);">
+      <span style="font-size:0.8rem; font-weight:700; color:var(--text-muted); width:100%; margin-bottom:4px;">Legende:</span>
+      <span style="font-size:0.85rem;">😄 = voll und ganz!!</span>
+      <span style="font-size:0.85rem; margin-left:0.5rem;">😊 = gut</span>
+      <span style="font-size:0.85rem; margin-left:0.5rem;">😐 = knapp</span>
+      <span style="font-size:0.85rem; margin-left:0.5rem;">😟 = gar nicht!!</span>
+    </div>
+
+    <!-- Deutsch -->
+    <div class="subject-row">
+      <div class="subject-name">📖 Deutsch</div>
+      <div class="emoji-scale">
+        <input type="radio" name="lz-deutsch" id="lz-d-1" value="voll">
+        <label for="lz-d-1"><span class="e-icon">😄</span><span class="e-text">voll und ganz!!</span></label>
+        <input type="radio" name="lz-deutsch" id="lz-d-2" value="gut">
+        <label for="lz-d-2"><span class="e-icon">😊</span><span class="e-text">gut</span></label>
+        <input type="radio" name="lz-deutsch" id="lz-d-3" value="knapp">
+        <label for="lz-d-3"><span class="e-icon">😐</span><span class="e-text">knapp</span></label>
+        <input type="radio" name="lz-deutsch" id="lz-d-4" value="gar_nicht">
+        <label for="lz-d-4"><span class="e-icon">😟</span><span class="e-text">gar nicht!!</span></label>
+      </div>
+      <div class="na-wrap">
+        <input type="radio" name="lz-deutsch" id="lz-d-na" value="nicht_belegt">
+        <label class="na-label" for="lz-d-na">➖ Fach nicht belegt</label>
+      </div>
+    </div>
+
+    <!-- Mathematik -->
+    <div class="subject-row">
+      <div class="subject-name">🔢 Mathematik</div>
+      <div class="emoji-scale">
+        <input type="radio" name="lz-mathe" id="lz-m-1" value="voll">
+        <label for="lz-m-1"><span class="e-icon">😄</span><span class="e-text">voll und ganz!!</span></label>
+        <input type="radio" name="lz-mathe" id="lz-m-2" value="gut">
+        <label for="lz-m-2"><span class="e-icon">😊</span><span class="e-text">gut</span></label>
+        <input type="radio" name="lz-mathe" id="lz-m-3" value="knapp">
+        <label for="lz-m-3"><span class="e-icon">😐</span><span class="e-text">knapp</span></label>
+        <input type="radio" name="lz-mathe" id="lz-m-4" value="gar_nicht">
+        <label for="lz-m-4"><span class="e-icon">😟</span><span class="e-text">gar nicht!!</span></label>
+      </div>
+      <div class="na-wrap">
+        <input type="radio" name="lz-mathe" id="lz-m-na" value="nicht_belegt">
+        <label class="na-label" for="lz-m-na">➖ Fach nicht belegt</label>
+      </div>
+    </div>
+
+    <!-- Allgemeinbildung -->
+    <div class="subject-row">
+      <div class="subject-name">🌍 Allgemeinbildung</div>
+      <div class="emoji-scale">
+        <input type="radio" name="lz-abu" id="lz-a-1" value="voll">
+        <label for="lz-a-1"><span class="e-icon">😄</span><span class="e-text">voll und ganz!!</span></label>
+        <input type="radio" name="lz-abu" id="lz-a-2" value="gut">
+        <label for="lz-a-2"><span class="e-icon">😊</span><span class="e-text">gut</span></label>
+        <input type="radio" name="lz-abu" id="lz-a-3" value="knapp">
+        <label for="lz-a-3"><span class="e-icon">😐</span><span class="e-text">knapp</span></label>
+        <input type="radio" name="lz-abu" id="lz-a-4" value="gar_nicht">
+        <label for="lz-a-4"><span class="e-icon">😟</span><span class="e-text">gar nicht!!</span></label>
+      </div>
+      <div class="na-wrap">
+        <input type="radio" name="lz-abu" id="lz-a-na" value="nicht_belegt">
+        <label class="na-label" for="lz-a-na">➖ Fach nicht belegt</label>
+      </div>
+    </div>
+
+    <!-- Fachkunde -->
+    <div class="subject-row">
+      <div class="subject-name">🔧 Fachkunde</div>
+      <div class="emoji-scale">
+        <input type="radio" name="lz-fach" id="lz-f-1" value="voll">
+        <label for="lz-f-1"><span class="e-icon">😄</span><span class="e-text">voll und ganz!!</span></label>
+        <input type="radio" name="lz-fach" id="lz-f-2" value="gut">
+        <label for="lz-f-2"><span class="e-icon">😊</span><span class="e-text">gut</span></label>
+        <input type="radio" name="lz-fach" id="lz-f-3" value="knapp">
+        <label for="lz-f-3"><span class="e-icon">😐</span><span class="e-text">knapp</span></label>
+        <input type="radio" name="lz-fach" id="lz-f-4" value="gar_nicht">
+        <label for="lz-f-4"><span class="e-icon">😟</span><span class="e-text">gar nicht!!</span></label>
+      </div>
+      <div class="na-wrap">
+        <input type="radio" name="lz-fach" id="lz-f-na" value="nicht_belegt">
+        <label class="na-label" for="lz-f-na">➖ Fach nicht belegt</label>
+      </div>
+    </div>
+
+
+    <!-- Anderes Fach -->
+    <div class="subject-row" id="anderes-fach-row">
+      <div class="subject-name">➕ Anderes Fach</div>
+      <div style="margin-bottom:0.75rem;">
+        <input type="text" name="anderes-fach-name" placeholder="Welches Fach? (z.B. Englisch, Französisch, IKT …)" style="width:100%; border:1.5px solid var(--border); border-radius:8px; padding:9px 12px; font-family:'Nunito Sans',sans-serif; font-size:0.95rem; color:var(--text); background:var(--white); outline:none; transition:border-color 0.15s; margin-bottom:8px;" onfocus="this.style.borderColor='var(--blue)'" onblur="this.style.borderColor='var(--border)'">
+      </div>
+      <div class="emoji-scale">
+        <input type="radio" name="lz-anderes" id="lz-an-1" value="voll">
+        <label for="lz-an-1"><span class="e-icon">😄</span><span class="e-text">voll und ganz!!</span></label>
+        <input type="radio" name="lz-anderes" id="lz-an-2" value="gut">
+        <label for="lz-an-2"><span class="e-icon">😊</span><span class="e-text">gut</span></label>
+        <input type="radio" name="lz-anderes" id="lz-an-3" value="knapp">
+        <label for="lz-an-3"><span class="e-icon">😐</span><span class="e-text">knapp</span></label>
+        <input type="radio" name="lz-anderes" id="lz-an-4" value="gar_nicht">
+        <label for="lz-an-4"><span class="e-icon">😟</span><span class="e-text">gar nicht!!</span></label>
+      </div>
+      <div class="na-wrap">
+        <input type="radio" name="lz-anderes" id="lz-an-na" value="nicht_belegt">
+        <label class="na-label" for="lz-an-na">➖ Fach nicht belegt</label>
+      </div>
+    </div>
+
+    <!-- Begründung -->
+    <div class="question" style="margin-top:1.25rem;">
+      <label class="q-text">Haben Sie ein Fach angekreuzt? Dann schreiben Sie hier kurz, warum.</label>
+      <span class="q-hint">Zum Beispiel: «Im Deutsch war die Zeit zu kurz.» Oder: «Mathe hat mir sehr gut gefallen, weil …»</span>
+      <textarea name="lz-begruendung" placeholder="Ihre Antwort …" rows="3"></textarea>
+    </div>
+  </div>
+
+  <!-- 3: Weiterempfehlung & Verbesserung -->
+  <div class="section" id="sec-2">
+    <div class="section-header">
+      <div class="section-icon">💬</div>
+      <div>
+        <div class="section-title">Ihre Meinung</div>
+        <div class="section-subtitle">Zwei kurze Fragen zum Schluss.</div>
+      </div>
+    </div>
+
+    <div class="question">
+      <label class="q-text">Würden Sie unseren Unterricht weiterempfehlen?</label>
+      <span class="q-hint">Das heisst: Würden Sie anderen Lernenden sagen: «Geht dort hin!»?</span>
+      <div class="yesno-wrap">
+        <input type="radio" name="empfehlung" id="emp-ja" value="ja">
+        <label class="yesno-label" for="emp-ja">👍 Ja</label>
+        <input type="radio" name="empfehlung" id="emp-nein" value="nein">
+        <label class="yesno-label" for="emp-nein">👎 Nein</label>
+      </div>
+    </div>
+
+    <div class="question">
+      <label class="q-text">Warum oder warum nicht?</label>
+      <textarea name="empfehlung-warum" placeholder="Ihre Antwort …" rows="3"></textarea>
+    </div>
+
+    <div class="question">
+      <label class="q-text">Was würden Sie am Unterricht verbessern oder verändern?</label>
+      <span class="q-hint">Schreiben Sie auf, was Sie sich gewünscht hätten.</span>
+      <textarea name="verbesserung" placeholder="Ihre Antwort …" rows="3"></textarea>
+    </div>
+  </div>
+
+  <!-- DANKE -->
+  <div class="section" id="sec-3">
+    <div class="danke-card">
+      <span class="danke-icon">🌟</span>
+      <h2>Herzlichen Dank!</h2>
+      <p>Sie haben sich Zeit genommen. Das ist sehr wertvoll für uns.<br><br>
+      Ihr Feedback hilft uns, den Unterricht besser zu machen.<br><br>
+      Wir wünschen Ihnen alles Gute auf Ihrem weiteren Weg!</p>
+    </div>
+  </div>
+
+  <div class="nav" id="nav-bar" style="display:none;">
+    <button class="btn btn-ghost" id="btn-back" onclick="navigate(-1)" style="visibility:hidden">← Zurück</button>
+    <span class="step-counter" id="step-counter"></span>
+    <button class="btn btn-primary" id="btn-next" onclick="navigate(1)">Weiter →</button>
+  </div>
+
+</main>
+
+<script>
+  const sections = document.querySelectorAll('.section');
+  const total = sections.length; // intro + sec-0 + sec-0b + sec-1 + sec-2 + danke = 6
+  // Content sections are indices 1..total-2 (everything except intro=0 and danke=total-1)
+  const CONTENT_COUNT = total - 2;
+  let current = 0;
+
+  function startSurvey() {
+    sections[current].classList.remove('active');
+    current = 1;
+    sections[current].classList.add('active');
+    document.getElementById('nav-bar').style.display = 'flex';
+    update();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function collectAllData() {
+    const data = {};
+    data['timestamp'] = new Date().toLocaleString('de-CH');
+    // Checkboxes: unterrichtsart
+    const artChecked = [];
+    document.querySelectorAll('input[name="unterrichtsart"]:checked').forEach(el => artChecked.push(el.value));
+    data['unterrichtsart'] = artChecked.join(', ') || '';
+    // Checkboxes: halbtag
+    const htChecked = [];
+    document.querySelectorAll('input[name="halbtag"]:checked').forEach(el => htChecked.push(el.value));
+    data['halbtag'] = htChecked.join(', ') || '';
+    // Text input: lehrperson
+    const lpEl = document.querySelector('select[name="lehrperson"], input[name="lehrperson"]');
+    data['lehrperson'] = lpEl ? lpEl.value.trim() : '';
+    // Text input: anderes-fach-name
+    const afEl = document.querySelector('input[name="anderes-fach-name"]');
+    data['anderes-fach-name'] = afEl ? afEl.value.trim() : '';
+    // Radios
+    document.querySelectorAll('input[type="radio"]:checked').forEach(el => { data[el.name] = el.value; });
+    // Textareas
+    document.querySelectorAll('textarea').forEach(el => { if (el.name) data[el.name] = el.value.trim(); });
+    return data;
+  }
+
+  async function submitData() {
+    const data = collectAllData();
+    const btn = document.getElementById('btn-next');
+    btn.textContent = 'Wird gesendet …';
+    btn.disabled = true;
+    try {
+      const jsonStr = encodeURIComponent(JSON.stringify(data));
+      const url = 'https://script.google.com/macros/s/PLACEHOLDER_GOOGLE_SCRIPT_ID/exec?data=' + jsonStr;
+      await fetch(url, { method: 'GET', mode: 'no-cors' });
+    } catch(e) { /* silent */ }
+    sections[current].classList.remove('active');
+    current = total - 1;
+    sections[current].classList.add('active');
+    update();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function navigate(dir) {
+    if (dir === 1 && current === total - 2) {
+      submitData();
+      return;
+    }
+    sections[current].classList.remove('active');
+    current += dir;
+    sections[current].classList.add('active');
+    update();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function update() {
+    const isDanke = current === total - 1;
+    const contentStep = current; // 1..CONTENT_COUNT
+    document.getElementById('btn-back').style.visibility = (current <= 1 || isDanke) ? 'hidden' : 'visible';
+    document.getElementById('btn-next').style.display = isDanke ? 'none' : 'inline-block';
+    document.getElementById('btn-next').textContent = current === total - 2 ? 'Absenden ✓' : 'Weiter →';
+    document.getElementById('step-counter').style.visibility = (isDanke || current === 0) ? 'hidden' : 'visible';
+    document.getElementById('step-counter').textContent = contentStep + ' / ' + CONTENT_COUNT;
+    document.getElementById('progress').style.width = isDanke ? '100%' : (contentStep / CONTENT_COUNT * 100) + '%';
+  }
+
+  update();
+</script>
+</body>
+</html>
